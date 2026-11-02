@@ -3,8 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src https://raw.githubusercontent.com; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src https://raw.githubusercontent.com https://api.github.com; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
+<link rel="alternate" hreflang="tr" href="https://nakzo95.github.io/">
+<link rel="alternate" hreflang="en" href="https://nakzo95.github.io/en/">
 <title>LinSol</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="LinSol: parametrik katı modelleme, montaj, teknik resim, render, mühendislik analizi ve CAM tek programda. Türkçe arayüz, internetsiz çalışır. Windows için 183 gün ücretsiz deneme.">
@@ -160,6 +162,20 @@ nav.top .links a:hover{color:var(--gink)}
 @media (max-width:760px){.antet{grid-template-columns:1fr 1fr}.antet div:nth-child(4n){border-right:1px solid var(--ink)}.antet div:nth-child(2n){border-right:0}.antet .w2,.antet .w4{grid-column:span 2;border-right:0}}
 
 .hash{font-size:12px;color:var(--gink2);margin:20px auto 0;overflow-wrap:anywhere;max-width:540px}
+/* geri bildirim formu */
+.gbf{max-width:720px;margin:44px auto 0;text-align:left;display:grid;gap:14px;background:#fff;border:1px solid var(--hair);border-radius:10px;padding:26px}
+.gbf label{display:grid;gap:6px;font-size:14px;font-weight:600;color:var(--ink)}
+.gbf label small{font-weight:400;color:var(--ink2)}
+.gbf select,.gbf textarea,.gbf input[type=email]{font:inherit;font-size:16px;padding:10px 12px;border:1px solid var(--hair);border-radius:6px;background:var(--white);color:var(--ink)}
+.gbf textarea{min-height:140px;resize:vertical}
+.gbf .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.gbf .thumbs{display:flex;gap:10px;flex-wrap:wrap}
+.gbf .thumbs span{position:relative}.gbf .thumbs img{height:70px;max-width:130px;object-fit:cover;border-radius:4px;border:1px solid var(--hair);display:block}
+.gbf .thumbs button{position:absolute;top:-7px;right:-7px;width:22px;height:22px;border-radius:50%;border:0;background:#c0392b;color:#fff;cursor:pointer;font-size:12px;line-height:22px;padding:0}
+.gbf .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.gbf .st{font-size:14px;color:var(--ink2);min-height:1.4em}.gbf .st.ok{color:#2b8a3e}.gbf .st.err{color:#c0392b}
+.gbf .note{font-size:13px;color:var(--ink2)}
+.lang{border:1px solid var(--gline);border-radius:5px;padding:3px 8px;font-size:12px;font-weight:600;color:var(--gink)!important;text-decoration:none}
 footer{background:var(--graph);color:var(--gink2);font-size:13px;padding-block:22px 30px;border-top:1px solid var(--gline)}
 footer .in{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
 </style>
@@ -177,7 +193,9 @@ footer .in{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betwee
       <a href="#analiz">Analiz</a>
       <a href="#imalat">İmalat</a>
       <a href="#neden">Neden LinSol</a>
+      <a href="#geri-bildirim">Geri bildirim</a>
     </div>
+    <a class="lang" href="en/" hreflang="en" lang="en">EN</a>
     <a class="btn pri sm" href="#indir">İndir</a>
   </div>
 </nav>
@@ -339,6 +357,24 @@ footer .in{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betwee
       <div class="w4" role="row"><small>İçe aktarma</small><span>STEP, IGES, DXF, DWG, STL, OBJ, 3MF, nokta bulutu, MaterialX</span></div>
       <div class="w4 last" role="row"><small>Dışa aktarma</small><span>STEP AP203 / AP214 / AP242, IGES, BREP, STL, OBJ, PLY, 3MF, AMF, glTF / GLB, IFC, URDF, DXF / DWG, PDF, SVG, PNG, G-kodu</span></div>
     </div>
+  </div>
+</section>
+
+<section class="band sheet pad" id="geri-bildirim">
+  <div class="in">
+    <p class="dim">Geri bildirim</p>
+    <h2 class="h">Söyleyin,<br>birlikte düzeltelim.</h2>
+    <p class="sub">İstek, şikâyet ya da hata bildirimi. İsterseniz ekran görüntüsü ekleyin. Mesajınız yalnız LinSol geliştiricisine ulaşır.</p>
+    <form class="gbf" id="gbf" novalidate>
+      <label for="gbtur">Konu<select id="gbtur"><option value="istek">İstek / öneri</option><option value="sikayet">Şikâyet</option><option value="hata">Hata bildirimi</option><option value="diger">Diğer</option></select></label>
+      <label for="gbmsg">Açıklama<textarea id="gbmsg" maxlength="4000" required placeholder="Ne olmasını istiyorsunuz ya da ne ters gitti? Hata ise hangi adımda olduğunu yazın."></textarea></label>
+      <label for="gbmail">E-posta <small>(isteğe bağlı, yanıt almak isterseniz)</small><input id="gbmail" type="email" maxlength="120" autocomplete="email" placeholder="ornek@eposta.com"></label>
+      <div class="row"><label class="btn sec" for="gbfile" style="font-weight:600;cursor:pointer">Görsel ekle</label><input id="gbfile" type="file" accept="image/png,image/jpeg,image/webp" multiple hidden><span class="note">En çok 3 görsel; buraya yapıştırabilirsiniz de (Ctrl+V).</span></div>
+      <div class="thumbs" id="gbth"></div>
+      <div class="hp" aria-hidden="true"><label>Web sitesi<input id="gbweb" tabindex="-1" autocomplete="off"></label></div>
+      <div class="row"><button class="btn pri" type="submit" id="gbsend">Gönder</button><p class="st" id="gbst" role="status" aria-live="polite"></p></div>
+      <p class="note">Gönderdiğiniz metin ve görseller gizli bir kayıt deposunda tutulur, herkese açık değildir. E-posta adresinizi yalnız size yanıt vermek için kullanırız.</p>
+    </form>
   </div>
 </section>
 
