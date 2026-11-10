@@ -163,6 +163,13 @@ nav.top .links a:hover{color:var(--gink)}
 
 .hash{font-size:12px;color:var(--gink2);margin:20px auto 0;overflow-wrap:anywhere;max-width:540px}
 /* geri bildirim formu */
+.duyuru{display:block;background:var(--blue);color:#fff;text-align:center;padding:10px 16px;font-size:15px;font-weight:600;text-decoration:none}
+.duyuru b{font-weight:800}.duyuru span{text-decoration:underline;text-underline-offset:3px;white-space:nowrap}.duyuru:hover{filter:brightness(1.08)}
+.gbf input[type=text]{font:inherit;font-size:16px;padding:10px 12px;border:1px solid var(--hair);border-radius:6px;background:var(--white);color:var(--ink)}
+.gbf .two{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:end}@media(max-width:640px){.gbf .two{grid-template-columns:1fr}}
+.gbf label.ck{display:flex;gap:10px;align-items:flex-start;font-weight:400;line-height:1.45}.gbf label.ck input{margin-top:4px;width:18px;height:18px;flex:none}
+.kosul{max-width:720px;margin:28px auto 0;text-align:left;display:grid;gap:10px;padding:0;list-style:none}.kosul li{padding-left:30px;position:relative;font-size:17px;line-height:1.45;color:var(--ink)}
+.dark .kosul li{color:var(--gink)}.kosul li::before{content:"";position:absolute;left:4px;top:.5em;width:10px;height:10px;border-radius:2px;background:var(--blue-hi)}
 .gbf{max-width:720px;margin:44px auto 0;text-align:left;display:grid;gap:14px;background:#fff;border:1px solid var(--hair);border-radius:10px;padding:26px}
 .gbf label{display:grid;gap:6px;font-size:14px;font-weight:600;color:var(--ink)}
 .gbf label small{font-weight:400;color:var(--ink2)}
@@ -189,6 +196,7 @@ footer .in{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betwee
 <body>
 
 
+<a class="duyuru" href="#test"><b>Sign up to test now, earn a lifetime licence.</b> <span>Apply</span></a>
 <nav class="top" aria-label="Site">
   <div class="in">
     <a class="brand" href="#ust"><img src="../img/icon.png" alt="" width="24" height="24"><span>Lin<b>Sol</b></span></a>
@@ -199,6 +207,7 @@ footer .in{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betwee
       <a href="#analiz">Analysis</a>
       <a href="#imalat">Manufacturing</a>
       <a href="#neden">Why LinSol</a>
+      <a href="#test">Become a tester</a>
       <a href="#feedback">Feedback</a>
     </div>
     <a class="yt" href="https://www.youtube.com/@LinSol3d" target="_blank" rel="noopener" aria-label="LinSol on YouTube" title="LinSol on YouTube"><svg viewBox="0 0 28 20" width="26" height="18" aria-hidden="true"><rect width="28" height="20" rx="5" fill="#ff0033"/><path d="M11.2 5.6v8.8L18.8 10z" fill="#fff"/></svg></a>
@@ -364,6 +373,27 @@ footer .in{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betwee
       <div class="w4" role="row"><small>Import</small><span>STEP, IGES, DXF, DWG, STL, OBJ, 3MF, point clouds, MaterialX</span></div>
       <div class="w4 last" role="row"><small>Export</small><span>STEP AP203 / AP214 / AP242, IGES, BREP, STL, OBJ, PLY, 3MF, AMF, glTF / GLB, IFC, URDF, DXF / DWG, PDF, SVG, PNG, G-code</span></div>
     </div>
+  </div>
+</section>
+
+<section class="band dark pad" id="test">
+  <div class="in">
+    <p class="dim">Tester programme</p>
+    <h2 class="h">Test it,<br>use it for life.</h2>
+    <p class="sub">Try LinSol on your own work and send a short report every month. In return your licence is free for life.</p>
+    <ul class="kosul"><li>Your application goes to the developer; if accepted, your licence key is sent to your email address.</li><li>Every month you fill in a short feedback report inside the program: what you used, where you got stuck, what is missing.</li><li>In the last week of the month the program reminds you. If the report has not been sent when the month ends, LinSol will not open until it is sent.</li><li>As long as you send your reports your licence does not expire, and there is no charge.</li></ul>
+    <form class="gbf" id="tkf" novalidate>
+      <div class="two"><label for="tkad">Full name<input id="tkad" type="text" maxlength="60" autocomplete="name" required></label>
+      <label for="tkmail">Email <small>(the licence key is sent to this address)</small><input id="tkmail" type="email" maxlength="120" autocomplete="email" required placeholder="ornek@eposta.com"></label></div>
+      <div class="two"><label for="tkfirma">Company / profession <small>(optional)</small><input id="tkfirma" type="text" maxlength="80" autocomplete="organization"></label>
+      <label for="tkalan">What will you mostly use LinSol for?<select id="tkalan"><option>Machine design</option><option>Sheet metal / welded fabrication</option><option>CNC / CAM</option><option>Analysis</option><option>Student / education</option><option>Hobby</option><option>Other</option></select></label></div>
+      <label for="tkcad">CAD program you use today <small>(optional)</small><input id="tkcad" type="text" maxlength="80"></label>
+      <label for="tkneden">Tell us briefly about yourself and how you will try LinSol<textarea id="tkneden" maxlength="1500" required placeholder="What kind of parts do you design, and how much will you use it each week?"></textarea></label>
+      <label class="ck" for="tkok"><input id="tkok" type="checkbox" required><span>I agree to send a feedback report every month, and that the program locks at the end of a month with no report until the report is sent.</span></label>
+      <div class="hp" aria-hidden="true"><label>Website<input id="tkweb" tabindex="-1" autocomplete="off"></label></div>
+      <div class="row"><button class="btn pri" type="submit" id="tksend">Send application</button><p class="st" id="tkst" role="status" aria-live="polite"></p></div>
+      <p class="note">Your details are kept in a private record store and are not public; they are used only to assess your application and to send your licence key.</p>
+    </form>
   </div>
 </section>
 
