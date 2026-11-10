@@ -38,6 +38,37 @@
      Mesaj, LinSol'ün kullanıcılara dağıttığı bildirim anahtarıyla gizli geri bildirim deposuna kayıt olarak gönderilir.
      Anahtar sayfada yazılı değildir; gönderim anında imzalı lisans listesinden okunur. Görseller tarayıcıda küçültülüp
      JPEG'e çevrilir ve parça parça eklenir. Ekrana yalnız düz metin yazılır. */
+  /* ---------- test kullanıcısı başvurusu (0.9.198) ----------
+     Geri bildirimle aynı kanal: "basvuru" türünde kayıt. Sahip, Lisans Yöneticisi › Geri bildirimler'de görür ve
+     anahtarı e-postayla gönderir. */
+  var TK = EN ? { need: 'Please fill in your name, email and the short description.', agree: 'Please tick the box to accept the monthly report condition.', ok: 'Thank you. Your application has been sent; the licence key will be emailed to you if it is accepted.', send: 'Send application' }
+    : { need: 'Lütfen adınızı, e-postanızı ve kısa açıklamayı yazın.', agree: 'Lütfen aylık rapor koşulunu kabul ettiğinizi işaretleyin.', ok: 'Teşekkürler. Başvurunuz gönderildi; kabul edilirse lisans anahtarı e-postanıza gönderilir.', send: 'Başvuruyu gönder' };
+  var tkf = document.getElementById('tkf');
+  if (tkf) (function () {
+    var st2 = document.getElementById('tkst'), b2 = document.getElementById('tksend'), t1 = Date.now(), V = function (id) { return (document.getElementById(id).value || '').trim(); };
+    function say2(m, k) { st2.textContent = m || ''; st2.className = 'st' + (k ? ' ' + k : ''); }
+    tkf.addEventListener('submit', function (e) {
+      e.preventDefault(); if (b2.disabled) return;
+      var ad = V('tkad'), mail = V('tkmail'), firma = V('tkfirma'), alan = V('tkalan'), cad = V('tkcad'), neden = V('tkneden');
+      if (document.getElementById('tkweb').value) return say2(TK.ok, 'ok');
+      if (ad.length < 3 || neden.length < 10 || !mail) return say2(TK.need, 'err');
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)) return say2(T.mail, 'err');
+      if (!document.getElementById('tkok').checked) return say2(TK.agree, 'err');
+      if (Date.now() - t1 < 3000) return say2(T.wait, 'err');
+      var lg = rateOk(); if (!lg) return say2(T.rate, 'err');
+      b2.disabled = true; b2.textContent = T.sending; say2('');
+      var msg = 'TEST KULLANICISI BAŞVURUSU\nAd: ' + ad + '\nE-posta: ' + mail + '\nFirma / meslek: ' + (firma || '—') + '\nKullanım alanı: ' + alan + '\nŞu anki CAD: ' + (cad || '—') + '\nAylık rapor koşulu: kabul edildi\n\n' + neden;
+      var tok = '', body = { k: 'gb', v: 1, tur: 'basvuru', msg: msg.slice(0, 4000), mail: mail.slice(0, 120), ad: ad.slice(0, 60), src: 'site', lang: EN ? 'en' : 'tr', page: location.pathname.slice(0, 120), n: 0, t: Date.now() };
+      fetch(LIST + '?t=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (j) { tok = tokenOf(j); if (!tok) throw new Error(T.off);
+          return fetch(GB_API + '/issues', { method: 'POST', headers: { Authorization: 'Bearer ' + tok, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' }, body: JSON.stringify({ title: 'Test başvurusu · ' + ad.slice(0, 60), body: JSON.stringify(body) }) }); })
+        .then(function (r) { if (r.status !== 201) throw new Error(T.fail); })
+        .then(function () { rateAdd(lg); tkf.reset(); say2(TK.ok, 'ok'); })
+        .catch(function (er) { say2((er && er.message) || T.fail, 'err'); })
+        .then(function () { tok = ''; b2.disabled = false; b2.textContent = TK.send; });
+    });
+  })();
+
   var form = document.getElementById('gbf'); if (!form) return;
   var imgs = [], t0 = Date.now(), st = document.getElementById('gbst'), th = document.getElementById('gbth'), btn = document.getElementById('gbsend');
   function say(m, k) { st.textContent = m || ''; st.className = 'st' + (k ? ' ' + k : ''); }
